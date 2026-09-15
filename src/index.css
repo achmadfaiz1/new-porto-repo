@@ -8,17 +8,17 @@
   }
 
   body {
-    @apply bg-white font-sans text-ink antialiased;
+    @apply bg-paper font-sans text-ink antialiased;
   }
 
   ::selection {
-    @apply bg-ink text-white;
+    @apply bg-ink text-snow;
   }
 }
 
 @layer utilities {
   .section-pad {
-    @apply scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24 md:px-12 lg:px-16;
+    @apply scroll-mt-24 px-6 py-24 sm:px-10 sm:py-28 md:px-14 md:py-32;
   }
 
   .container-narrow {
@@ -26,18 +26,26 @@
   }
 
   .eyebrow {
-    @apply mb-3 text-xs font-medium uppercase tracking-[0.18em] text-ash;
+    @apply mb-4 text-[11px] font-normal uppercase tracking-editorial text-mist;
   }
 
   .section-title {
-    @apply text-2xl font-semibold tracking-tight text-ink sm:text-3xl;
+    @apply text-xl font-medium tracking-tight text-ink sm:text-2xl;
   }
 
   .muted {
-    @apply text-sm leading-relaxed text-ash sm:text-base;
+    @apply text-sm leading-relaxed text-ash sm:text-[15px] sm:leading-7;
   }
 
   .hairline {
     @apply border-t border-line;
+  }
+
+  .btn-solid {
+    @apply inline-flex items-center border border-ink bg-ink px-5 py-2.5 text-sm font-medium tracking-wide text-snow transition hover:bg-graphite;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center border border-ink/30 bg-transparent px-5 py-2.5 text-sm font-medium tracking-wide text-ink transition hover:border-ink;
   }
 }
