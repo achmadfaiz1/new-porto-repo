@@ -36,16 +36,22 @@ export function SectionNavArrows() {
   const canDown = index < SECTIONS.length - 1;
 
   return (
-    <div className="fixed bottom-6 right-4 z-40 flex flex-col gap-2 sm:right-6">
+    <div className="fixed bottom-6 right-4 z-40 flex flex-col gap-1.5 sm:right-6">
       <button
         type="button"
         aria-label="Previous section"
         disabled={!canUp}
         onClick={() => canUp && scrollToSection(SECTIONS[index - 1].id)}
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white text-ink shadow-sm transition hover:border-ink disabled:cursor-not-allowed disabled:opacity-30"
+        className="flex h-9 w-9 items-center justify-center border border-line bg-paper/90 text-ink backdrop-blur-sm transition hover:border-ink disabled:cursor-not-allowed disabled:opacity-25"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-          <path d="M8 12V4M8 4L4 8M8 4L12 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+          <path
+            d="M8 12V4M8 4L4 8M8 4L12 8"
+            stroke="currentColor"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
       <button
@@ -53,10 +59,16 @@ export function SectionNavArrows() {
         aria-label="Next section"
         disabled={!canDown}
         onClick={() => canDown && scrollToSection(SECTIONS[index + 1].id)}
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white text-ink shadow-sm transition hover:border-ink disabled:cursor-not-allowed disabled:opacity-30"
+        className="flex h-9 w-9 items-center justify-center border border-line bg-paper/90 text-ink backdrop-blur-sm transition hover:border-ink disabled:cursor-not-allowed disabled:opacity-25"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-          <path d="M8 4V12M8 12L4 8M8 12L12 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+          <path
+            d="M8 4V12M8 12L4 8M8 12L12 8"
+            stroke="currentColor"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
     </div>

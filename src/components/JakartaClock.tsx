@@ -31,15 +31,15 @@ export function JakartaClock() {
 
   return (
     <div
-      className="font-mono text-xs tracking-wide text-ash"
+      className="hidden font-mono text-[10px] tracking-[0.12em] text-mist sm:block"
       aria-live="polite"
       title="Asia/Jakarta (WIB)"
     >
-      <span className="text-mist">JKT</span>{" "}
+      <span>JKT</span>
+      <span className="mx-1.5 text-line">·</span>
       <span className="text-ink">{clock.time}</span>
       <span className="mx-1.5 text-line">·</span>
       <span>{clock.date}</span>
-      <span className="ml-1.5 text-mist">WIB</span>
     </div>
   );
 }
