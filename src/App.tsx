@@ -57,16 +57,11 @@ function Hero() {
   return (
     <section id="hero" className="section-pad min-h-[88vh] flex items-center">
       <div className="container-narrow w-full">
-        <p className="eyebrow">Jakarta · People Analytics</p>
         <h1 className="mt-2 text-4xl font-semibold tracking-tight text-ink sm:text-5xl md:text-6xl">
           {PROFILE.name}
         </h1>
         <p className="mt-4 max-w-xl text-lg text-ash sm:text-xl">
           {PROFILE.title}
-        </p>
-        <p className="mt-6 max-w-2xl muted">
-          Built GoTo&apos;s PM function from scratch. 360 · Calibration · PIP ·
-          Critical Talent · SQL / BigQuery / Tableau / Looker / R
         </p>
         <div className="mt-10 flex flex-wrap items-center gap-3">
           <a
