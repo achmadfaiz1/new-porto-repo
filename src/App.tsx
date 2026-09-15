@@ -40,12 +40,6 @@ function Nav() {
         </nav>
         <div className="flex items-center gap-3">
           <JakartaClock />
-          <a
-            href={PROFILE.cvPath}
-            download
-            className="hidden rounded-full border border-ink bg-ink px-3 py-1.5 text-xs font-medium text-white transition hover:bg-graphite sm:inline-block"
-          >
-          </a>
         </div>
       </div>
     </header>
