@@ -45,7 +45,6 @@ function Nav() {
             download
             className="hidden rounded-full border border-ink bg-ink px-3 py-1.5 text-xs font-medium text-white transition hover:bg-graphite sm:inline-block"
           >
-            CV
           </a>
         </div>
       </div>
