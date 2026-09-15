@@ -84,6 +84,15 @@ export const EXPERIENCE = [
 
 export const PROJECTS = [
   {
+    title: "360 Performance System, GoTo HoldCo",
+    org: "GoTo HoldCo",
+    year: "2022",
+    bullets: [
+      "Led the 360 Performance System as product manager, owning the process design, product requirements, and QA, and partnering with an IT engineer on development.",
+      "Defined the process flows, then ran UAT and drove rollout and onboarding for HR teams.",
+    ],
+  },
+  {
     title: "PAC Data Warehouse",
     org: "GoTo HoldCo",
     year: "2022",
