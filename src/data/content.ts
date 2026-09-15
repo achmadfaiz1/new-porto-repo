@@ -6,7 +6,8 @@ export const PROFILE = {
   linkedin: "https://linkedin.com/in/achmadf18",
   linkedinLabel: "linkedin.com/in/achmadf18",
   phone: "+62 822 7494 4294",
-  cvPath: "/Faiz%20Resume.pdf",
+  // Local path once public/Faiz Resume.pdf is added; falls back to copy on faiz-portfolio until then.
+  cvPath: "https://raw.githubusercontent.com/achmadfaiz1/faiz-portfolio/main/public/Faiz%20Resume.pdf",
   summary:
     "Performance Management and People Analytics professional with 7+ years building HR data infrastructure, analytics, and internal tools from the ground up. Built GoTo's Performance Management function from scratch; combines deep people-data analytics with the ability to design and ship the tools that deliver it — including the 360 Performance Management System, calibration analytics, and PIP and Critical Talent modules. Strong in SQL, BigQuery, Tableau, Looker, and R.",
 } as const;
