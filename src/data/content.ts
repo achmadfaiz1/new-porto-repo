@@ -8,7 +8,7 @@ export const PROFILE = {
   phone: "+62 822 7494 4294",
   cvPath: "/ACHMAD%20FAIZ%20Resume%205.1%20.pdf",
   summary:
-    "Performance Management and People Analytics professional with 7+ years building HR data infrastructure, analytics, and internal tools from the ground up. Built GoTo's Performance Management function from scratch; combines deep people-data analytics with the ability to design and ship the tools that deliver it — including the 360 Performance Management System, calibration analytics, and PIP and Critical Talent modules. Strong in SQL, BigQuery, Tableau, Looker, and R.",
+    "Performance Management and People Analytics professional with 7+ years helping HR building data infrastructure, analytics, and internal tools from the ground up. Built GoTo's Performance Management function; combines deep people-data analytics with the ability to design and ship the tools that deliver it — including the 360 Performance Management System, calibration analytics, and PIP and Critical Talent modules. Strong in SQL, BigQuery, Tableau, Looker, and in addition R Studio.",
 } as const;
 
 export const SECTIONS = [
