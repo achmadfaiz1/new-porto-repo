@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { VisitorCounter } from "./VisitorCounter";
 
 function formatJakarta(now: Date) {
   const date = new Intl.DateTimeFormat("en-GB", {
@@ -31,19 +30,16 @@ export function JakartaClock() {
   }, []);
 
   return (
-    <>
-      <VisitorCounter />
-      <div
-        className="hidden font-mono text-[10px] tracking-[0.12em] text-mist sm:block"
-        aria-live="polite"
-        title="Asia/Jakarta (WIB)"
-      >
-        <span>JKT</span>
-        <span className="mx-1.5 text-line">·</span>
-        <span className="text-ink">{clock.time}</span>
-        <span className="mx-1.5 text-line">·</span>
-        <span>{clock.date}</span>
-      </div>
-    </>
+    <div
+      className="hidden font-mono text-[10px] tracking-[0.12em] text-mist sm:block"
+      aria-live="polite"
+      title="Asia/Jakarta (WIB)"
+    >
+      <span>JKT</span>
+      <span className="mx-1.5 text-line">·</span>
+      <span className="text-ink">{clock.time}</span>
+      <span className="mx-1.5 text-line">·</span>
+      <span>{clock.date}</span>
+    </div>
   );
 }
