@@ -1,5 +1,6 @@
 import { JakartaClock } from "./components/JakartaClock";
 import { SectionNavArrows } from "./components/SectionNavArrows";
+import { VisitorCounter } from "./components/VisitorCounter";
 import {
   CERTIFICATION,
   EDUCATION,
@@ -39,6 +40,7 @@ function Nav() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <VisitorCounter />
           <JakartaClock />
         </div>
       </div>
