@@ -2,9 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Theme tokens — light (paper) default; dark stays B/W/grey only */
+:root,
+[data-theme="light"] {
+  --ink-rgb: 17 17 17;
+  --graphite-rgb: 31 31 31;
+  --ash-rgb: 92 92 92;
+  --mist-rgb: 143 143 143;
+  --line-rgb: 228 226 220;
+  --paper-rgb: 246 245 241;
+  --snow-rgb: 251 250 247;
+  --color-ink: #111111;
+}
+
+[data-theme="dark"] {
+  --ink-rgb: 246 245 241;
+  --graphite-rgb: 232 230 225;
+  --ash-rgb: 176 174 168;
+  --mist-rgb: 138 136 130;
+  --line-rgb: 42 42 42;
+  --paper-rgb: 17 17 17;
+  --snow-rgb: 26 26 26;
+  --color-ink: #f6f5f1;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   body {
@@ -13,6 +52,67 @@
 
   ::selection {
     @apply bg-ink text-snow;
+  }
+
+  /* Visible focus rings for keyboard users (ink outline) */
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Soft fade / slide-up once on viewport enter */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.55s ease,
+      transform 0.55s ease;
+  }
+
+  [data-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* Soft crossfade feel on active nav label */
+  .nav-label {
+    opacity: 0.72;
+  }
+
+  .nav-label-active {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-label,
+    .nav-label-active {
+      transition: none;
+    }
+  }
+
+  /* CV micro-press */
+  .cv-press {
+    transform: scale(0.97);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cv-press {
+      transform: none;
+    }
   }
 }
 
@@ -47,5 +147,37 @@
 
   .btn-ghost {
     @apply inline-flex items-center border border-ink/30 bg-transparent px-5 py-2.5 text-sm font-medium tracking-wide text-ink transition hover:border-ink;
+  }
+}
+
+/* Print / Save as PDF — clean chrome */
+@media print {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .print\:hidden,
+  header,
+  .fixed {
+    display: none !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .section-pad {
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+
+  a[href]::after {
+    content: none !important;
   }
 }
