@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,33 @@
       content="Achmad Faiz — Performance Management & People Analytics. Jakarta."
     />
     <meta name="theme-color" content="#f6f5f1" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://achmad-faiz-cv.vercel.app/" />
+    <meta property="og:title" content="Achmad Faiz — People Analytics" />
+    <meta
+      property="og:description"
+      content="Performance Management & People Analytics. Jakarta."
+    />
+    <meta
+      property="og:image"
+      content="https://achmad-faiz-cv.vercel.app/og-image.svg"
+    />
+    <meta property="og:image:alt" content="Achmad Faiz — People Analytics" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Achmad Faiz — People Analytics" />
+    <meta
+      name="twitter:description"
+      content="Performance Management & People Analytics. Jakarta."
+    />
+    <meta
+      name="twitter:image"
+      content="https://achmad-faiz-cv.vercel.app/og-image.svg"
+    />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,6 +43,17 @@
       rel="stylesheet"
     />
     <title>Achmad Faiz — People Analytics</title>
+    <script>
+      // Apply stored theme before paint to avoid flash (default: light/paper)
+      try {
+        var t = localStorage.getItem("af-porto-theme");
+        if (t === "dark" || t === "light") {
+          document.documentElement.setAttribute("data-theme", t);
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute("content", t === "dark" ? "#111111" : "#f6f5f1");
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
