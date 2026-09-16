@@ -1,5 +1,8 @@
+import { BackToTop } from "./components/BackToTop";
+import { DownloadCvButton } from "./components/DownloadCvButton";
 import { JakartaClock } from "./components/JakartaClock";
 import { SectionNavArrows } from "./components/SectionNavArrows";
+import { ThemeToggle } from "./components/ThemeToggle";
 import { VisitorCounter } from "./components/VisitorCounter";
 import {
   CERTIFICATION,
@@ -11,46 +14,88 @@ import {
   SKILLS,
   type SectionId,
 } from "./data/content";
+import { useActiveSection } from "./hooks/useActiveSection";
+import { useExperienceTimeline } from "./hooks/useExperienceTimeline";
+import { usePrefersReducedMotion } from "./hooks/usePrefersReducedMotion";
+import { useRevealOnce } from "./hooks/useRevealOnce";
+import { useScrollProgress } from "./hooks/useScrollProgress";
+import { useSectionKeyboard } from "./hooks/useSectionKeyboard";
+import { useTheme } from "./hooks/useTheme";
 
-function scrollTo(id: SectionId) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+function scrollTo(id: SectionId, reduced: boolean) {
+  document
+    .getElementById(id)
+    ?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
 }
 
 function Nav() {
+  const activeId = useActiveSection();
+  const progress = useScrollProgress();
+  const reduced = usePrefersReducedMotion();
+  const { theme, toggle } = useTheme();
+
   return (
-    <header className="sticky top-0 z-30 border-b border-line/70 bg-paper/85 backdrop-blur-md">
+    <header className="relative sticky top-0 z-30 border-b border-line/70 bg-paper/85 backdrop-blur-md print:hidden">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-3.5 sm:px-10">
         <button
           type="button"
-          onClick={() => scrollTo("hero")}
+          onClick={() => scrollTo("hero", reduced)}
           className="text-[13px] font-medium tracking-[0.14em] text-ink"
         >
           AF
         </button>
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
-          {SECTIONS.filter((s) => s.id !== "hero").map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => scrollTo(s.id)}
-              className="text-[11px] font-normal uppercase tracking-[0.16em] text-mist transition hover:text-ink"
-            >
-              {s.label}
-            </button>
-          ))}
+          {SECTIONS.filter((s) => s.id !== "hero").map((s) => {
+            const active = activeId === s.id;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => scrollTo(s.id, reduced)}
+                aria-current={active ? "true" : undefined}
+                className={`nav-label relative pb-1 text-[11px] font-normal uppercase tracking-[0.16em] transition ${
+                  active ? "nav-label-active text-ink" : "text-mist hover:text-ink"
+                } ${reduced ? "" : "duration-300"}`}
+              >
+                {s.label}
+                <span
+                  className={`absolute inset-x-0 -bottom-px h-px bg-ink transition ${
+                    active ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
+                  } ${reduced ? "" : "duration-300"}`}
+                  aria-hidden
+                />
+              </button>
+            );
+          })}
         </nav>
         <div className="flex items-center gap-3">
           <VisitorCounter />
           <JakartaClock />
+          <ThemeToggle theme={theme} onToggle={toggle} />
         </div>
+      </div>
+      {/* Progress hairline under sticky nav */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px overflow-hidden"
+        aria-hidden
+      >
+        <div
+          className="h-full origin-left bg-ink/70"
+          style={{
+            width: "100%",
+            transform: `scaleX(${progress})`,
+            transition: reduced ? "none" : "transform 80ms linear",
+          }}
+        />
       </div>
     </header>
   );
 }
 
 function Hero() {
+  const reduced = usePrefersReducedMotion();
   return (
-    <section id="hero" className="section-pad flex min-h-[90vh] items-center">
+    <section id="hero" className="section-pad flex min-h-[90vh] items-center" data-reveal>
       <div className="container-narrow w-full">
         <p className="eyebrow mb-6">Portfolio</p>
         <h1 className="text-5xl font-medium leading-[1.05] tracking-tight text-ink sm:text-6xl md:text-7xl">
@@ -60,15 +105,20 @@ function Hero() {
           {PROFILE.title}
         </p>
         <div className="mt-12 flex flex-wrap items-center gap-3">
-          <a href={PROFILE.cvPath} download className="btn-solid">
-            Download CV
-          </a>
+          <DownloadCvButton variant="solid" label="Download CV" />
           <button
             type="button"
-            onClick={() => scrollTo("experience")}
+            onClick={() => scrollTo("experience", reduced)}
             className="btn-ghost"
           >
             View experience
+          </button>
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="btn-ghost print:hidden"
+          >
+            Save as PDF
           </button>
         </div>
         <p className="mt-14 font-mono text-[11px] tracking-wide text-mist">
@@ -83,7 +133,7 @@ function Hero() {
 
 function About() {
   return (
-    <section id="about" className="section-pad hairline">
+    <section id="about" className="section-pad hairline" data-reveal>
       <div className="container-narrow">
         <p className="eyebrow">About</p>
         <h2 className="section-title">Summary</h2>
@@ -94,12 +144,32 @@ function About() {
 }
 
 function Experience() {
+  const timeline = useExperienceTimeline();
+  const reduced = usePrefersReducedMotion();
+
   return (
-    <section id="experience" className="section-pad hairline">
-      <div className="container-narrow">
+    <section id="experience" className="section-pad hairline" data-reveal>
+      <div className="container-narrow relative">
         <p className="eyebrow">Experience</p>
         <h2 className="section-title">Work history</h2>
-        <ol className="mt-14">
+
+        {/* Growing timeline hairline (subtle) */}
+        <div
+          className="pointer-events-none absolute left-0 top-24 bottom-8 hidden w-px sm:block"
+          aria-hidden
+        >
+          <div className="absolute inset-0 bg-line/80" />
+          <div
+            className="absolute inset-x-0 top-0 origin-top bg-ink/55"
+            style={{
+              height: "100%",
+              transform: `scaleY(${timeline})`,
+              transition: reduced ? "none" : "transform 80ms linear",
+            }}
+          />
+        </div>
+
+        <ol className="mt-14 sm:pl-8">
           {EXPERIENCE.map((role, i) => (
             <li
               key={`${role.company}-${role.title}-${role.dates}`}
@@ -140,7 +210,7 @@ function Experience() {
 
 function Projects() {
   return (
-    <section id="projects" className="section-pad hairline">
+    <section id="projects" className="section-pad hairline" data-reveal>
       <div className="container-narrow">
         <p className="eyebrow">Projects</p>
         <h2 className="section-title">Selected work</h2>
@@ -179,7 +249,7 @@ function Projects() {
 
 function Skills() {
   return (
-    <section id="skills" className="section-pad hairline">
+    <section id="skills" className="section-pad hairline" data-reveal>
       <div className="container-narrow">
         <p className="eyebrow">Skills</p>
         <h2 className="section-title">Capabilities</h2>
@@ -205,7 +275,7 @@ function Skills() {
 
 function Education() {
   return (
-    <section id="education" className="section-pad hairline">
+    <section id="education" className="section-pad hairline" data-reveal>
       <div className="container-narrow">
         <p className="eyebrow">Education</p>
         <h2 className="section-title">Background</h2>
@@ -243,7 +313,7 @@ function Education() {
 
 function Contact() {
   return (
-    <section id="contact" className="section-pad hairline">
+    <section id="contact" className="section-pad hairline" data-reveal>
       <div className="container-narrow">
         <p className="eyebrow">Contact</p>
         <h2 className="section-title">Get in touch</h2>
@@ -285,10 +355,15 @@ function Contact() {
             <dd className="text-ink">{PROFILE.location}</dd>
           </div>
         </dl>
-        <div className="mt-12">
-          <a href={PROFILE.cvPath} download className="btn-ghost">
-            Download CV (PDF)
-          </a>
+        <div className="mt-12 flex flex-wrap gap-3">
+          <DownloadCvButton variant="ghost" label="Download CV (PDF)" />
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="btn-ghost print:hidden"
+          >
+            Print / Save as PDF
+          </button>
         </div>
       </div>
     </section>
@@ -304,8 +379,11 @@ function Footer() {
 }
 
 export default function App() {
+  useRevealOnce();
+  useSectionKeyboard();
+
   return (
-    <div className="min-h-screen bg-paper">
+    <div className="min-h-screen bg-paper text-ink">
       <Nav />
       <main>
         <Hero />
@@ -318,6 +396,7 @@ export default function App() {
       </main>
       <Footer />
       <SectionNavArrows />
+      <BackToTop />
     </div>
   );
 }
